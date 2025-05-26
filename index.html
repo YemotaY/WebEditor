@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout Editor</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <div id="app">
+        <div id="controls-overlay"
+            style="position: absolute; top: 30px; left: 30px; z-index: 3000; background: #fff; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); padding: 0; min-width: 220px; max-width: 320px; cursor: move;">
+            <div id="controls" style="padding:10px 8px;max-width:230px;">
+                <h3 style="margin-bottom:8px;">Layout Editor</h3>
+                <details style="margin-bottom:10px;">
+                    <summary style="font-size:14px;font-weight:bold;cursor:pointer;outline:none;user-select:none;">
+                        Editor</summary>
+                    <div style="padding:6px 0 0 0;">
+                        <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center;">
+                            <input type="checkbox" id="snapToGrid" checked style="margin:0;">
+                            <label for="snapToGrid" style="margin:0 8px 0 2px;font-size:13px;">Ausrichten</label>
+                            <input type="checkbox" id="showGrid" checked style="margin:0;">
+                            <label for="showGrid" style="margin:0 0 0 2px;font-size:13px;">Gitter</label>
+                        </div>
+                        <div style="display:flex;gap:6px;margin-bottom:10px;">
+                            <button id="addSvg" style="flex:1;min-width:0;padding:5px 6px;font-size:12px;">+SVG</button>
+                            <button id="importSvg" style="flex:1;min-width:0;padding:5px 6px;font-size:12px;">
+                                import.</button>
+                            <button id="addImage"
+                                style="flex:1;min-width:0;padding:5px 6px;font-size:12px;">Bild</button>
+                        </div>
+                        <input type="file" id="fileInput" accept=".svg" multiple style="display: none">
+                        <input type="file" id="imageInput" accept="image/*" multiple style="display: none">
+                        <div class="property-row" style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                            <label for="bgScale" style="font-size:13px;min-width:80px;">Hintergrund:</label>
+                            <input type="range" id="bgScale" min="10" max="200" value="100" step="5"
+                                style="margin:0 4px;flex:1;">
+                            <span id="bgScaleValue" style="font-size:12px;min-width:38px;text-align:right;">100%</span>
+                        </div>
+                    </div>
+                </details>
+                <details id="property-panel-details" style="margin-top:10px;">
+                    <summary style="font-size:15px;font-weight:bold;cursor:pointer;outline:none;user-select:none;">
+                        Element</summary>
+                    <div id="property-panel" style="padding:10px 6px;box-shadow:none;">
+                        <div class="property-row" style="margin-bottom:6px;">
+                            <label style="font-size:12px;">ID:</label>
+                            <div>
+                                <input type="text" id="prop-id" style="font-size:12px;">
+                                <div class="error-message" id="id-error">ID bereits vergeben</div>
+                            </div>
+                        </div>
+                        <div class="property-row" style="margin-bottom:6px;">
+                            <label style="font-size:12px;">Bezeichnung:</label>
+                            <input type="text" id="prop-label" style="font-size:12px;">
+                        </div>
+                        <div class="property-row" style="margin-bottom:6px;">
+                            <label style="font-size:12px;">X:</label>
+                            <input type="number" id="prop-x" step="1" style="font-size:12px;">
+                        </div>
+                        <div class="property-row" style="margin-bottom:6px;">
+                            <label style="font-size:12px;">Y:</label>
+                            <input type="number" id="prop-y" step="1" style="font-size:12px;">
+                        </div>
+                        <div class="property-row" style="margin-bottom:6px;">
+                            <label style="font-size:12px;">Breite:</label>
+                            <input type="number" id="prop-width" min="1" step="1" style="font-size:12px;">
+                        </div>
+                        <div class="property-row" style="margin-bottom:6px;">
+                            <label style="font-size:12px;">Höhe:</label>
+                            <input type="number" id="prop-height" min="1" step="1" style="font-size:12px;">
+                        </div>
+                        <div class="property-row" style="margin-bottom:6px;">
+                            <label style="font-size:12px;">Rotation:</label>
+                            <input type="number" id="prop-rotation" step="1" style="font-size:12px;">
+                        </div>
+                        <div class="property-row" style="margin-bottom:6px;">
+                            <label style="font-size:12px;">Z-Level:</label>
+                            <input type="number" id="prop-zindex" step="1" style="font-size:12px;">
+                        </div>
+                        <div class="property-row" style="margin-bottom:6px;">
+                            <label style="font-size:12px;">Formfarbe:</label>
+                            <input type="color" id="prop-fill" value="#ff0000" style="width:40px;height:22px;">
+                        </div>
+                        <div class="property-row" style="margin-bottom:6px;">
+                            <label style="font-size:12px;">Textfarbe:</label>
+                            <input type="color" id="prop-textcolor" value="#ffffff" style="width:40px;height:22px;">
+                        </div>
+                        <div class="property-row" style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                            <label for="prop-opacity" style="font-size:12px;min-width:80px;">Transp.:</label>
+                            <input type="range" id="prop-opacity" min="0" max="100" value="100" step="1"
+                                style="width:70px;flex:1;">
+                            <span id="opacity-value" style="font-size:12px;min-width:38px;text-align:right;">100%</span>
+                        </div>
+                        <div class="property-row" style="margin-bottom:6px;">
+                            <label style="font-size:12px;">Seitenverh.:</label>
+                            <select id="prop-aspect-ratio" style="font-size:12px;">
+                                <option value="xMidYMid meet">Original</option>
+                                <option value="none">Stretchen</option>
+                            </select>
+                        </div>
+                        <div class="action-buttons" style="gap:6px;margin-top:10px;">
+                            <button id="cloneBtn" class="secondary"
+                                style="font-size:12px;padding:5px 8px;">Klonen</button>
+                            <button id="deleteBtn" class="danger"
+                                style="font-size:12px;padding:5px 8px;">Löschen</button>
+                            <button id="saveBtn" style="font-size:12px;padding:5px 8px;">Speichern</button>
+                            <button id="groupBtn" style="font-size:12px;padding:5px 8px;">Gruppieren</button>
+                        </div>
+                        <div class="action-buttons" style="gap:6px;margin-top:8px;">
+                            <button id="loadFromServer" style="font-size:12px;padding:5px 8px;">Von Server
+                                laden</button>
+                            <button id="saveToServer" style="font-size:12px;padding:5px 8px;">Auf Server
+                                speichern</button>
+                            <button id="importJsonBtn" style="font-size:12px;padding:5px 8px;">Importieren</button>
+                            <input type="file" id="importJsonInput" accept="application/json" style="display:none">
+                        </div>
+                        <div id="serverStatus" style="font-size:12px;margin-top:8px;"></div>
+                    </div>
+                </details>
+                <details id="variables-panel-details" style="margin-top:10px;">
+                    <summary style="font-size:15px;font-weight:bold;cursor:pointer;outline:none;user-select:none;">
+                        Variablen</summary>
+                    <div id="variables-panel" style="padding:10px 6px;box-shadow:none;">
+                        <div id="variables-list" style="margin-bottom:16px;">
+                            <div
+                                style="font-size:13px;color:#333;font-weight:bold;margin-bottom:6px;">Angelegte Variablen
+                            </div>
+                            <!-- Hier werden die Variablen dynamisch gelistet -->
+                            <ul id="variables-ul"
+                                style="padding-left:18px;margin:0 0 8px 0;font-size:13px;color:#222;"></ul>
+                        </div>
+                        <hr style="margin:10px 0;">
+                        <div style="font-size:13px;font-weight:bold;margin-bottom:6px;">Variable mit Event verknüpfen
+                        </div>
+                        <div class="property-row" style="margin-bottom:8px;">
+                            <label for="var-link-name" style="font-size:12px;min-width:70px;">Variable:</label>
+                            <select id="var-link-name" style="font-size:12px;flex:1;"></select>
+                        </div>
+                        <div class="property-row" style="margin-bottom:8px;">
+                            <label for="var-link-value" style="font-size:12px;min-width:70px;">Wert:</label>
+                            <input type="text" id="var-link-value" style="font-size:12px;flex:1;">
+                        </div>
+                        <div class="property-row" style="margin-bottom:8px;">
+                            <label for="var-link-event" style="font-size:12px;min-width:70px;">Event:</label>
+                            <select id="var-link-event" style="font-size:12px;flex:1;">
+                                <option value="color">Farbe ändern</option>
+                                <option value="show">Ein-/Ausblenden</option>
+                                <option value="custom">Custom Event</option>
+                            </select>
+                        </div>
+                        <div class="property-row" style="margin-bottom:8px;">
+                            <label for="var-link-target" style="font-size:12px;min-width:70px;">Element-ID:</label>
+                            <input type="text" id="var-link-target" placeholder="z.B. element1" style="font-size:12px;flex:1;">
+                        </div>
+                        <div class="property-row" style="margin-bottom:8px;">
+                            <label for="var-link-param" style="font-size:12px;min-width:70px;">Wert/Farbe:</label>
+                            <input type="text" id="var-link-param" placeholder="z.B. #ff0000" style="font-size:12px;flex:1;">
+                        </div>
+                        <button id="add-var-link-btn" style="font-size:12px;padding:5px 8px;margin-bottom:10px;">Verknüpfung anlegen
+                        </button>
+                    </div>
+                </details>
+            </div>
+        </div>
+        <div id="editor"></div>
+        <div id="elements-overlay"
+            style="position: absolute; top: 30px; right: 30px; z-index: 2000; background: #fff; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); padding: 10px; min-width: 180px; max-width: 300px; max-height: 400px; overflow-y: auto; cursor: move;">
+            <div style="font-weight: bold; margin-bottom: 8px; cursor: move;">Elemente</div>
+            <div id="elements-list"></div>
+        </div>
+    </div>
+    <!-- SVG Auswahl Dialog -->
+    <div id="svg-selection-dialog"
+        style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.2); z-index: 1000;">
+        <h3>SVG Vorlage auswählen</h3>
+        <div id="svg-templates"
+            style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0;"></div>
+        <div style="text-align: right;">
+            <button id="cancel-svg-selection" style="margin-right: 10px;">Abbrechen</button>
+        </div>
+    </div>
+    <div id="svg-selection-overlay"
+        style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999;">
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script type="module" src="./main.js"></script>
+</body>
+
+</html>

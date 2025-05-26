@@ -1,0 +1,8 @@
+# Ignore node_modules and system files
+node_modules/
+.DS_Store
+Thumbs.db
+
+# Ignore all json files except svg-layout.json
+*.json
+!svg-layout.json
