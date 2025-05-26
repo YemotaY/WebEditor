@@ -731,7 +731,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Testbutton für Zeitstempel (bereits vorhanden)
   const testBtn = document.createElement('button');
-  testBtn.textContent = 'Test: Zeitstempel ändern';
+  testBtn.textContent = 'Zeitstempel';
   testBtn.style.fontSize = '12px';
   testBtn.style.margin = '8px 8px 0 0';
   testBtn.onclick = function() {
@@ -743,7 +743,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Testbutton für lebensbit
   const lebensbitBtn = document.createElement('button');
-  lebensbitBtn.textContent = 'Test: Lebensbit toggeln';
+  lebensbitBtn.textContent = 'Lebensbit';
   lebensbitBtn.style.fontSize = '12px';
   lebensbitBtn.style.margin = '8px 8px 0 0';
   lebensbitBtn.onclick = function() {
@@ -758,7 +758,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Testbutton für zaehler
   const zaehlerBtn = document.createElement('button');
-  zaehlerBtn.textContent = 'Test: Zähler +1';
+  zaehlerBtn.textContent = 'Zähler';
   zaehlerBtn.style.fontSize = '12px';
   zaehlerBtn.style.margin = '8px 0 0 0';
   zaehlerBtn.onclick = function() {

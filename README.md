@@ -1,7 +1,7 @@
 # SVGEditor
 
 Ein moderner, modularer SVG-Editor mit Gruppenfunktion, Drag & Drop, Rechteck-Tool und Import/Export.
-
+![alt text](image.png)
 ## Features
 
 - **SVG- und Bild-Elemente hinzufügen:** SVG-Vorlagen oder eigene Bilder einfügen.
